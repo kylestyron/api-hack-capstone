@@ -1,10 +1,10 @@
 'use strict';
 
 function createResultItem(card) { //append these to ul for each item returned by searches
-    const tcgCard = '';
-    const ebayCard = '';
+    const tcgPrice = 1;
+    const ebayPrice = 1;
 
-    console.log(getEbayInfo(card));
+    //console.log(getEbayInfo(card));
     
     return `<li class="result"><img src=${card.imageUrl} alt=${card.name} ${card.set} ${card.number}>
     <br>
@@ -17,6 +17,7 @@ function displayResults(response) {
     console.log(response);
     let resultHtml='';
     for(const card of response.cards) {
+        console.log(card);
         resultHtml += createResultItem(card);
     }
     console.log(resultHtml);
@@ -33,10 +34,10 @@ function getEbayInfo(card) {
     const appID = 'KyleStyr-cards-PRD-0e64be0f2-f6e14bc0';
     const url = `https://svcs.ebay.com/services/search/FindingService/v1?SECURITY-APPNAME=KyleStyr-cards-PRD-0e64be0f2-f6e14bc0&OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&RESPONSE-DATA-FORMAT=JSON&REST-PAYLOAD&keywords=${card.name}+${card.set}&paginationInput.entriesPerPage=6&GLOBAL-ID=EBAY-US&siteid=0`;
 
-    let requestOptions = {
+    /*let requestOptions = {
       method: 'GET',
       mode: 'cors'
-    };
+    };*/
 
     fetch(url, requestOptions)
     .then(response => {
@@ -56,7 +57,7 @@ function getTcgplayerInfo(card) {
 
 function cardSearch(query) {
     console.log(query);
-    const url=toPokemonUrl(query);
+    const url = toPokemonUrl(query);
     
     fetch(url)
     .then(response => {
