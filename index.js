@@ -4,12 +4,11 @@ function createResultItem(card) { //append these to ul for each item returned by
     const tcgPrice = '';
     const ebayPrice = '';
 
-    console.log(getEbayInfo(card));
+    console.log(getTcgplayerInfo(card));
     
     return `<li class="result"><img src=${card.imageUrl} alt=${card.name} ${card.set} ${card.number}>
     <br>
         <a href=#><p>TCGPlayer: ${tcgPrice}</p></a>
-        <a href=#><p>eBay: ${ebayPrice}</p></a>
     </li>`;
 }
 
@@ -27,17 +26,18 @@ function toPokemonUrl(params) {
     return baseUrl + `cards?name=${params}`;
 }
 
+/*
 function getEbayInfo(card) {
     const appID = 'KyleStyr-cards-PRD-0e64be0f2-f6e14bc0';
     //const ebayUrl = `https://svcs.ebay.com/services/search/FindingService/v1?`;
-/*
+
     const ebayJson = {
       "findItemsByKeywordsRequest": {
         "xmlns": "http://www.ebay.com/marketplace/search/v1/services",
         "keywords": "harry potter phoenix",
         "paginationInput": { "entriesPerPage": "2" }
       }
-    }*/
+    }
     var settings = {
       "url": "https://svcs.ebay.com/services/search/FindingService/v1",
       "method": "POST",
@@ -58,8 +58,8 @@ function getEbayInfo(card) {
     /*let requestOptions = {
       method: 'GET',
       mode: 'cors'
-    };*/
-    /*
+    };
+    
     fetch(url)
     .then(response => {
       if (response.ok) {
@@ -70,11 +70,32 @@ function getEbayInfo(card) {
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
+  }
     */
-}
+
 
 function getTcgplayerInfo(card) {
-    const key = '';
+    const publicKey = '8625d225-a4b5-427d-802a-3615eb776c49';
+    const privateKey = '96820297-6a18-4e88-9039-233e7974050f';
+    
+    const token = {"access_token":"9iGFKs2u-02D4vCK0J28CegHB2oyDYjuCOtiYpE9ccZrj7NkO2tIC9wawZxmKpN4hexLMGcYRLd2I0goFHZXVyDuFVuO6hvK9Vvlt80y4w-ynw-ahyYZ7JD1vBktxCqOk4IdENoafH2QH_3Iuli6lGZ3C6tcgMHgN3eDkuWNkC6bblwS5HRaPWxW3O1XW3wKYit9ojhzT5ltn1RPq1LjK04F4pS_mf0dVwaTWwjmMyGpZpf6EDjuMKMYZI0ACVMzq-8BslJsgJxGgq1L5uY1H1kPX5cZFOUMRpFRym2y2tBhFGeTwxDxRghX_iSPmHxxu9rbTQ",
+    "token_type":"bearer",
+    "expires_in":1209599,
+    "userName":"8625d225-a4b5-427d-802a-3615eb776c49"};
+
+    fetch("https://api.tcgplayer.com/catalog/categories", {
+    "method": "GET",
+    "headers": {
+      "Accept": "application/json",
+      "Authorization": `bearer ${token.access_token}`
+    }
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.error(err);
+      });
 }
 
 function cardSearch(query) {
